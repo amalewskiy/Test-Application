@@ -30,8 +30,15 @@ class TestApplication extends StatefulWidget {
 class _TestApplicationState extends State<TestApplication> {
   String _titleProgram = "Test Application";
   String _heyThere = "Hey there";
-  var _randomColor = getColor(getRgbColorsList());
-  List rgbList = [];
+  List _rgbList = [];
+  Color _randomColor = const Color(0xFF000000);
+
+  @protected
+  @mustCallSuper
+  void initState() {
+    _rgbList = getRgbColorsList();
+    _randomColor = getColor(_rgbList);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,13 +54,13 @@ class _TestApplicationState extends State<TestApplication> {
             child: InkWell(
               onTap: () {
                 setState(() {
-                  rgbList = getRgbColorsList();
-                  _randomColor = getColor(rgbList);
+                  _rgbList = getRgbColorsList();
+                  _randomColor = getColor(_rgbList);
                 });
               },
               onLongPress: () {
                 Clipboard.setData(
-                    ClipboardData(text: "RGB: ${rgbList.join(', ')}"));
+                    ClipboardData(text: "RGB: ${_rgbList.join(', ')}"));
                 Fluttertoast.showToast(
                     msg: "Copy to clipboard",
                     toastLength: Toast.LENGTH_SHORT,
